@@ -73,7 +73,8 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env.*
+*.env
+!.sample.env
 
 ### OSX ###
 *.DS_Store

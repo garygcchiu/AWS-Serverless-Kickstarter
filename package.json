@@ -4,8 +4,8 @@
   "description": "Serverless backend for Restauranto",
   "main": "index.js",
   "scripts": {
-    "deployStack": "export AWS_PROFILE=restauranto-deploy; sam deploy --stack-name $STACK_NAME --guided",
-    "deployDev": " export STACK_NAME=restauranto-dev; npm run prepare:dev; npm run deployStack",
+    "deployStack": "sam build; sam deploy --stack-name $STACK_NAME --s3-bucket restauranto-artifacts --capabilities CAPABILITY_NAMED_IAM --profile restauranto-deploy; npm run postDeployStack",
+    "deployDev": "export STACK_NAME=restauranto-dev; npm run prepare:dev; npm run deployStack",
     "deployStaging": "export STACK_NAME=restauranto-staging; npm run prepare:staging; npm run deployStack",
     "deployProd": "export STACK_NAME=restauranto-prod; npm run prepare:prod; npm run deployStack",
     "prepare:dev": "cp .dev.env .env",
@@ -15,6 +15,7 @@
     "deleteStackDev": "export STACK_NAME=restauranto-dev; npm run deleteStack",
     "deleteStackStaging": "export STACK_NAME=restauranto-staging; npm run deleteStack",
     "deleteStackProd": "export STACK_NAME=restauranto-prod; npm run deleteStack",
+    "postDeployStack": "rm .env;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gary Chiu",
