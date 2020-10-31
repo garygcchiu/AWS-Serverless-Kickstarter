@@ -51,4 +51,4 @@ jobs:
             # Deploy with AWS SAM #
             #######################
             - name: Deploy with AWS SAM
-              run: npm run deployStackProd
+              run: npm run deployProd
