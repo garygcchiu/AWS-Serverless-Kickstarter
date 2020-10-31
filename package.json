@@ -16,6 +16,7 @@
     "deleteStackStaging": "export STACK_NAME=restauranto-staging; npm run deleteStack",
     "deleteStackProd": "export STACK_NAME=restauranto-prod; npm run deleteStack",
     "postDeployStack": "rm .env;",
+    "deployProdCICD": "export STACK_NAME=restauranto-prod; sam build; sam deploy --stack-name $STACK_NAME --s3-bucket restauranto-artifacts --capabilities CAPABILITY_NAMED_IAM",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gary Chiu",
