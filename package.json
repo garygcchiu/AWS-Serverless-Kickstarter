@@ -1,0 +1,22 @@
+{
+  "name": "restauranto-api",
+  "version": "0.0.1",
+  "description": "Serverless backend for Restauranto",
+  "main": "index.js",
+  "scripts": {
+    "deployStack": "export AWS_PROFILE=restauranto-deploy; sam deploy --stack-name $STACK_NAME --guided",
+    "deployDev": " export STACK_NAME=restauranto-dev; npm run prepare:dev; npm run deployStack",
+    "deployStaging": "export STACK_NAME=restauranto-staging; npm run prepare:staging; npm run deployStack",
+    "deployProd": "export STACK_NAME=restauranto-prod; npm run prepare:prod; npm run deployStack",
+    "prepare:dev": "cp .dev.env .env",
+    "prepare:staging": "cp .staging.env .env",
+    "prepare:prod": "cp .prod.env .env",
+    "deleteStack": "aws cloudformation delete-stack --stack-name $STACK_NAME",
+    "deleteStackDev": "export STACK_NAME=restauranto-dev; npm run deleteStack",
+    "deleteStackStaging": "export STACK_NAME=restauranto-staging; npm run deleteStack",
+    "deleteStackProd": "export STACK_NAME=restauranto-prod; npm run deleteStack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gary Chiu",
+  "license": "ISC"
+}
