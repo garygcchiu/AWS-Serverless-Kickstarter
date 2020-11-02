@@ -1,11 +1,20 @@
 # kickstarter-api
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
+This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. 
 
-- hello-world - Code for the application's Lambda function.
-- events - Invocation events that you can use to invoke the function.
-- hello-world/tests - Unit tests for the application code. 
-- template.yaml - A template that defines the application's AWS resources.
+It is based on the [Hello World sample application by AWS](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-getting-started-hello-world.html), with a few additions:
+
+- **Layers**: sample Utils [AWS Lambda Layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) with `config-utils` to retrieve secrets (i.e. API keys) from [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), and a sample `google-utils` service for consuming an external API to be used be multiple Lambdas. 
+- **Streamlined Deployment & Development Commands**: Simply run `npm run dev` to start a local API, or `npm run deployDev|Staging|Prod` to deploy a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) for an environment.  
+- **GitHub Actions CI/CD**: Workflow added to automatically deploy a prod application stack upon merging a PR to `master`. Easily replicable for automatically deploy to a staging or dev environment. 
+- **Separate CloudFormation Stacks For Each Environment**
+
+It includes the following files and folders.
+
+- `src/sample` - Code for the application's Lambda function.
+- `src/sample/events` - Invocation events that you can use to invoke the function.
+- `src/sample/tests` - Unit tests for the application code. 
+- `template.yaml` - A template that defines the application's AWS resources.
 
 The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
 
@@ -21,62 +30,64 @@ The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
 
-To use the SAM CLI, you need the following tools.
+Prerequisites:
 
 * SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 * Node.js - [Install Node.js 10](https://nodejs.org/en/), including the NPM package management tool.
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+* S3 bucket to store build artifacts for AWS SAM. 
+    * Create the bucket, and set the value of `s3_bucket` in [samconfig.toml](./samconfig.toml) to the name of the bucket for each environment
+* IAM User with [Programmatic Access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) to AWS
+    * The IAM User will need the following permissions on the Resource `arn:aws:iam::[your AWS account ID]:role/*`:
+        * "iam:TagRole"
+        * "iam:CreateRole"
+        * "iam:DeleteRole"
+        * "iam:AttachRolePolicy"
+        * "iam:DetachRolePolicy"
+        * "iam:TagUser"
+    * When deploying manually, you will need to [configure your AWS CLI with the profile of the user](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
+    * When deploying via CI/CD, you will need to update the [GitHub Actions Secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets) with your `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` for the user.
 
 To build and deploy your application for the first time, run the following in your shell:
 
 ```bash
-sam build
-sam deploy --guided
+npm run deployDev
+or
+npm run deployStaging
+or
+npm run deployProd
 ```
 
-The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
-
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modified IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
+The command will build the source of your application, package, and deploy your application to AWS, with a series of prompts:
 
 You can find your API Gateway Endpoint URL in the output values displayed after deployment.
 
 ## Use the SAM CLI to build and test locally
 
-Build your application with the `sam build` command.
+To [start API Gateway locally](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-using-start-api.html), use the `npm run dev` command.
 
 ```bash
-kickstarter-api$ sam build
+$ npm run dev
 ```
 
-The SAM CLI installs dependencies defined in `hello-world/package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
+The SAM CLI installs dependencies defined in `src/sample/package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder. It will accept incoming connections to `localhost:3000`. 
 
 Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
 
-Run functions locally and invoke them with the `sam local invoke` command.
+Run functions locally and invoke them with the `npm run local` command.
 
 ```bash
-kickstarter-api$ sam local invoke HelloWorldFunction --event events/event.json
-```
-
-The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
-
-```bash
-kickstarter-api$ sam local start-api
-kickstarter-api$ curl http://localhost:3000/
+$ npm run local
 ```
 
 The SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
 
 ```yaml
       Events:
-        HelloWorld:
+        Sample:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /sample
             Method: get
 ```
 
@@ -100,7 +111,7 @@ You can find more information and examples about filtering Lambda function logs 
 Tests are defined in the `hello-world/tests` folder in this project. Use NPM to install the [Mocha test framework](https://mochajs.org/) and run unit tests.
 
 ```bash
-kickstarter-api$ cd hello-world
+kickstarter-api$ cd sample
 hello-world$ npm install
 hello-world$ npm run test
 ```
