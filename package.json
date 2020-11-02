@@ -4,7 +4,7 @@
   "description": "Serverless backend for a sample kickstarter application",
   "scripts": {
     "dev": "sam build; sam local start-api --env-vars local.env.json;",
-    "deployStack": "sam build; sam deploy --config-file samconfig.toml --config-env $ENVIRONMENT --profile restauranto-deploy; npm run postDeployStack",
+    "deployStack": "sam build; sam deploy --config-file samconfig.toml --config-env $ENVIRONMENT --profile kickstarter-deploy; npm run postDeployStack",
     "deployDev": "export STACK_NAME=kickstarter-dev ENVIRONMENT=dev; npm run deployStack",
     "deployStaging": "export STACK_NAME=kickstarter-staging ENVIRONMENT=staging; npm run deployStack",
     "deployProd": "export STACK_NAME=kickstarter-prod ENVIRONMENT=prod; npm run deployStack",

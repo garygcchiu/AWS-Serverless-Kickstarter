@@ -3,7 +3,7 @@ version = 0.1
 [dev.deploy]
 [dev.deploy.parameters]
 stack_name = "kickstarter-dev"
-s3_bucket = "restauranto-artifacts"
+s3_bucket = "kickstarter-artifacts"
 s3_prefix = "kickstarter-dev"
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Env=dev"
@@ -12,7 +12,7 @@ parameter_overrides = "Env=dev"
 [staging.deploy]
 [staging.deploy.parameters]
 stack_name = "kickstarter-staging"
-s3_bucket = "restauranto-artifacts"
+s3_bucket = "kickstarter-artifacts"
 s3_prefix = "kickstarter-staging"
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Env=staging"
@@ -21,7 +21,7 @@ parameter_overrides = "Env=staging"
 [prod.deploy]
 [prod.deploy.parameters]
 stack_name = "kickstarter-prod"
-s3_bucket = "restauranto-artifacts"
+s3_bucket = "kickstarter-artifacts"
 s3_prefix = "kickstarter-prod"
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Env=prod"
