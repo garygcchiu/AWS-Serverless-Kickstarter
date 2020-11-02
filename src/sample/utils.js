@@ -3,10 +3,15 @@ const getLayersPath = path => {
     return process.env.Env === 'local' ? `../layers/nodejs/node_modules/${path}` : path;
 }
 
-const getGoogleUtils = () => {
+const getGoogleUtilsPath = () => {
     return getLayersPath('google-utils');
 };
 
+const getConfigUtilsPath = () => {
+    return getLayersPath('config-utils');
+};
+
 module.exports = {
-    getGoogleUtils,
+    getGoogleUtilsPath,
+    getConfigUtilsPath,
 }

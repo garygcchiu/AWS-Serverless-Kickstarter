@@ -1,8 +1,9 @@
 const axios = require('axios');
 const url = 'http://checkip.amazonaws.com/';
 let response;
-const { getGoogleUtils } = require('./utils');
-const { getGoogleApiStuff } = require(getGoogleUtils());
+const { getGoogleUtilsPath, getConfigUtilsPath } = require('./utils');
+const { getGoogleApiStuff } = require(getGoogleUtilsPath());
+const { getSSMParameter } = require(getConfigUtilsPath());
 
 /**
  *
@@ -19,6 +20,7 @@ const { getGoogleApiStuff } = require(getGoogleUtils());
 exports.handler = async (event, context) => {
     try {
         const gapiRes = getGoogleApiStuff();
+        const secretEnvVar = await getSSMParameter('SuperSecretKey', true);
         const ret = await axios(url);
         response = {
             'statusCode': 200,
@@ -26,6 +28,7 @@ exports.handler = async (event, context) => {
                 message: 'hello world',
                 location: ret.data.trim(),
                 gapiRes,
+                secret: secretEnvVar,
             })
         }
     } catch (err) {
