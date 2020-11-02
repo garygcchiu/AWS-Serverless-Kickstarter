@@ -10,30 +10,62 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+  Env:
+    Type: String
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+
 Resources:
-  HelloWorldFunction:
+  ########################
+  #
+  # Lambda Functions
+  #
+  ########################
+  PlacesFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: src/hello-world/
-      Handler: app.lambdaHandler
+      CodeUri: src/places/
+      Handler: index.handler
       Runtime: nodejs12.x
       Events:
-        HelloWorld:
+        Places:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
+            Path: /places
             Method: get
+      Layers:
+        - !Ref UtilsLayer
+      Environment:
+        Variables:
+          Env: !Ref Env
+
+  ########################
+  #
+  # Layers
+  #
+  ########################
+  UtilsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: Utils
+      Description: Shared utilities for Lambdas
+      ContentUri: src/layers
+      CompatibleRuntimes:
+        - nodejs12.x
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  PlacesApi:
+    Description: "API Gateway endpoint URL for Prod stage for Places endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/places/"
+  PlacesFunction:
+    Description: "Places Lambda Function ARN"
+    Value: !GetAtt PlacesFunction.Arn
+  PlacesFunctionIamRole:
+    Description: "Implicit IAM Role created for Places function"
+    Value: !GetAtt PlacesFunction.Arn

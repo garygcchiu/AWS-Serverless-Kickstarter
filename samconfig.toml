@@ -1,0 +1,27 @@
+version = 0.1
+[dev]
+[dev.deploy]
+[dev.deploy.parameters]
+stack_name = "restauranto-dev"
+s3_bucket = "restauranto-artifacts"
+s3_prefix = "restauranto-dev"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Env=dev"
+
+[staging]
+[staging.deploy]
+[staging.deploy.parameters]
+stack_name = "restauranto-staging"
+s3_bucket = "restauranto-artifacts"
+s3_prefix = "restauranto-staging"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Env=staging"
+
+[prod]
+[prod.deploy]
+[prod.deploy.parameters]
+stack_name = "restauranto-prod"
+s3_bucket = "restauranto-artifacts"
+s3_prefix = "restauranto-prod"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Env=prod"
