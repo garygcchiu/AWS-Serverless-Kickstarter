@@ -2,7 +2,7 @@ const axios = require('axios');
 const url = 'http://checkip.amazonaws.com/';
 let response;
 const { getGoogleUtils } = require('./utils');
-const googleUtils = require(getGoogleUtils());
+const { getGoogleApiStuff } = require(getGoogleUtils());
 
 /**
  *
@@ -18,7 +18,7 @@ const googleUtils = require(getGoogleUtils());
  */
 exports.handler = async (event, context) => {
     try {
-        const gapiRes = googleUtils.getGoogleApiStuff();
+        const gapiRes = getGoogleApiStuff();
         const ret = await axios(url);
         response = {
             'statusCode': 200,

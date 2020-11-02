@@ -3,7 +3,6 @@ version = 0.1
 [dev.deploy]
 [dev.deploy.parameters]
 stack_name = "kickstarter-dev"
-s3_bucket = "kickstarter-artifacts"
 s3_prefix = "kickstarter-dev"
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Env=dev"
