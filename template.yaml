@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  restauranto-api
+  kickstarter-api
 
-  Sample SAM Template for restauranto-api
+  Sample SAM Template for kickstarter-api
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -24,17 +24,17 @@ Resources:
   # Lambda Functions
   #
   ########################
-  PlacesFunction:
+  SampleFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: src/places/
+      CodeUri: src/sample/
       Handler: index.handler
       Runtime: nodejs12.x
       Events:
         Places:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /places
+            Path: /sample
             Method: get
       Layers:
         - !Ref UtilsLayer
@@ -60,12 +60,12 @@ Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  PlacesApi:
-    Description: "API Gateway endpoint URL for Prod stage for Places endpoint"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/places/"
-  PlacesFunction:
-    Description: "Places Lambda Function ARN"
-    Value: !GetAtt PlacesFunction.Arn
-  PlacesFunctionIamRole:
-    Description: "Implicit IAM Role created for Places function"
-    Value: !GetAtt PlacesFunction.Arn
+  SampleApi:
+    Description: "API Gateway endpoint URL for Prod stage for Sample endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/sample/"
+  SampleFunction:
+    Description: "Sample Lambda Function ARN"
+    Value: !GetAtt SampleFunction.Arn
+  SampleFunctionIamRole:
+    Description: "Implicit IAM Role created for Sample function"
+    Value: !GetAtt SampleFunctionRole.Arn

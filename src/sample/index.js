@@ -1,7 +1,6 @@
 const axios = require('axios');
 const url = 'http://checkip.amazonaws.com/';
 let response;
-//const { getParameter } = require('../utils/ssm');
 const { getGoogleUtils } = require('./utils');
 const googleUtils = require(getGoogleUtils());
 
@@ -18,24 +17,15 @@ const googleUtils = require(getGoogleUtils());
  * 
  */
 exports.handler = async (event, context) => {
-    // retrieve Google Places API key from SSM
-    //const googlePlacesAPIKey = await getParameter('GoogleMapsAPIKey', true);
-    //console.log('google places api key = ', googlePlacesAPIKey);
-    console.log('got google utisl ? ', googleUtils.hehe());
-    console.log('process.env.ENV ? ', process.env.ENV);
-    console.log('process.env.Env ? ', process.env.Env);
-    console.log('process.env.env ? ', process.env.env);
-    console.log('process.env.NODE_ENV ? ', process.env.NODE_ENV);
-
     try {
-        //console.log('event  = ', event);
+        const gapiRes = googleUtils.getGoogleApiStuff();
         const ret = await axios(url);
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
                 message: 'hello world',
                 location: ret.data.trim(),
-                //googlePlacesAPIKey,
+                gapiRes,
             })
         }
     } catch (err) {
