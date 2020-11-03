@@ -8,8 +8,11 @@ It is based on the [Hello World sample application by AWS](https://docs.aws.amaz
     - `config-utils` to retrieve secrets (i.e. API keys) from [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
     - `google-utils` service for consuming an external API to be used be multiple Lambdas. 
     - `logger` using [winston](https://github.com/winstonjs/winston) for logging logs to CloudWatch
-- **Streamlined Deployment & Development Commands**: Simply run `npm run dev` to start a local API, or `npm run deployDev|Staging|Prod` to deploy a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) for an environment.  
-- **GitHub Actions CI/CD**: Workflow added to automatically deploy a prod CloudFormation Stack upon merging a PR to `master`. Easily replicable for automatically deploy to a staging or dev environment. 
+- **Streamlined Deployment & Development Commands**: Simply run: 
+    - `npm run dev` to start a local API 
+    - `npm run deployDev|Staging|Prod` to deploy a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) for an environment.  
+- **GitHub Actions CI/CD**: 
+    - Workflow added to automatically deploy a prod CloudFormation Stack upon merging a PR to `master`. Easily replicable for automatically deploy to a staging or dev environment. 
 - **Separate CloudFormation Stacks For Each Environment**
 
 It includes the following files and folders.
