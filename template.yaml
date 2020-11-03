@@ -40,7 +40,7 @@ Resources:
         - !Ref UtilsLayer
       Environment:
         Variables:
-          Env: !Ref Env
+          NODE_ENV: !Ref Env
 
   ########################
   #

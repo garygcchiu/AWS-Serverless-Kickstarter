@@ -1,11 +1,14 @@
 const axios = require('axios');
-const { getGoogleUtilsPath, getConfigUtilsPath } = require('./utils');
+const { getGoogleUtilsPath, getConfigUtilsPath, getLoggerPath } = require('./utils');
 
 const { getGoogleApiStuff } = require(getGoogleUtilsPath());
 const { getSSMParameter } = require(getConfigUtilsPath());
 
 const url = 'http://checkip.amazonaws.com/';
-let response;
+
+const logger = require(getLoggerPath()).child({
+    service: 'validate',
+});
 
 /**
  *
@@ -20,6 +23,9 @@ let response;
  * 
  */
 exports.handler = async (event, context) => {
+    logger.info('Hello from AWS Lambda!');
+
+    let response;
     try {
         const gapiRes = getGoogleApiStuff();
         // const secretEnvVar = await getSSMParameter('SuperSecretKey', true);
