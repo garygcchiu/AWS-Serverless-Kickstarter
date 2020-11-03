@@ -33,12 +33,12 @@ The Serverless Application Model Command Line Interface (SAM CLI) is an extensio
 Prerequisites:
 
 * SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* Node.js - [Install Node.js 10](https://nodejs.org/en/), including the NPM package management tool.
+* Node.js - [Install Node.js 12 or above](https://nodejs.org/en/), including the NPM package management tool.
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 * S3 bucket to store build artifacts for AWS SAM. 
     * Create the bucket, and set the value of `s3_bucket` in [samconfig.toml](./samconfig.toml) to the name of the bucket for each environment
 * IAM User with [Programmatic Access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) to AWS
-    * The IAM User will need the following permissions on the Resource `arn:aws:iam::[your AWS account ID]:role/*`:
+    * The IAM User will need the following [permissions](https://aws.amazon.com/iam/features/manage-permissions/) on the Resource `arn:aws:iam::[your AWS account ID]:role/*`:
         * "iam:TagRole"
         * "iam:CreateRole"
         * "iam:DeleteRole"
