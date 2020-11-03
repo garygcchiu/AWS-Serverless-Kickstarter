@@ -51,7 +51,7 @@ Prerequisites:
         * "iam:AttachRolePolicy"
         * "iam:DetachRolePolicy"
         * "iam:TagUser"
-    * When deploying manually, you will need to [configure your AWS CLI with the profile of the user](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
+    * When deploying manually, you will need to [configure your AWS CLI with the profile of the user](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html), and update the [package.json](./package.json)'s `deployStack` command to use the profile.
     * When deploying via CI/CD, you will need to update the [GitHub Actions Secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets) with your `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` for the user.
 
 To build and deploy your application for the first time, run the following in your shell:
