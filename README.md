@@ -93,7 +93,7 @@ The SAM CLI reads the application template to determine the API's routes and the
 
 ## Customization
 
-To make the application yours, replace `kickstarter` in [samconfig.toml](./samconfig.toml) with the name of your application.  
+To make the application yours, replace `kickstarter` in [samconfig.toml](./samconfig.toml) and the [package.json](package.json) with the name of your application.  
 
 ## Add a resource to your application
 The application template uses AWS Serverless Application Model (AWS SAM) to define application resources. AWS SAM is an extension of AWS CloudFormation with a simpler syntax for configuring common serverless application resources such as functions, triggers, and APIs. For resources not included in [the SAM specification](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md), you can use standard [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) resource types.
@@ -105,19 +105,19 @@ To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs`
 `NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
 
 ```bash
-kickstarter-api$ sam logs -n HelloWorldFunction --stack-name kickstarter-api --tail
+$ sam logs -n HelloWorldFunction --stack-name kickstarter-api --tail
 ```
 
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
 
 ## Unit tests
 
-Tests are defined in the `hello-world/tests` folder in this project. Use NPM to install the [Mocha test framework](https://mochajs.org/) and run unit tests.
+Tests are defined in the `sample/tests` folder in this project. Use NPM to install the [Mocha test framework](https://mochajs.org/) and run unit tests.
 
 ```bash
-kickstarter-api$ cd sample
-hello-world$ npm install
-hello-world$ npm run test
+$ cd sample
+$ npm install
+$ npm run test
 ```
 
 ## Cleanup
